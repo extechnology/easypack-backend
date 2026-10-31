@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-from django.forms import ComboField
 from pathlib import Path
 from decouple import config, Csv
 
@@ -79,24 +78,23 @@ WSGI_APPLICATION = 'EacyPackproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-if config('PRODUCTION') == False:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASS'),
+        'HOST': 'localhost',   # Or the IP address of your MySQL server
+        'PORT': '3306',        # Default MySQL port
     }
-elif config('PRODUCTION') == True:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': config('DB_NAME'),
-            'USER': config('DB_USER'),
-            'PASSWORD': config('DB_PASS'),
-            'HOST': 'localhost',   # Or the IP address of your MySQL server
-            'PORT': '3306',        # Default MySQL port
-        }
-    }
+}
 
 
 # Password validation
